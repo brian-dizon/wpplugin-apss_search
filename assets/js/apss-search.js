@@ -13,6 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let abortController = null;
     let debounceTimer = null;
 
+    /**
+     * Simple HTML escaping helper to prevent XSS.
+     */
+    const escapeHTML = (str) => {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    };
+
     if (!triggers.length || !overlay || !closeBtn || !searchInput) return;
 
     // Toggle Overlay
@@ -114,7 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let html = '';
 
         for (const [postType, results] of Object.entries(groupedResults)) {
-            const label = apssSearchData.labels[postType] || postType.charAt(0).toUpperCase() + postType.slice(1);
+            const rawLabel = apssSearchData.labels[postType] || postType.charAt(0).toUpperCase() + postType.slice(1);
+            const label = escapeHTML(rawLabel);
             
             html += `
                 <div class="apss-results-section">
@@ -126,11 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${results.map(item => `
                             <a href="${item.permalink}" class="apss-result-item">
                                 <div class="apss-result-image">
-                                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+                                    ${item.image ? `<img src="${item.image}" alt="${escapeHTML(item.title)}">` : ''}
                                 </div>
                                 <div class="apss-result-content">
-                                    <h3 class="apss-result-title">${item.title}</h3>
-                                    <p class="apss-result-excerpt">${item.excerpt}</p>
+                                    <h3 class="apss-result-title">${escapeHTML(item.title)}</h3>
+                                    <p class="apss-result-excerpt">${escapeHTML(item.excerpt)}</p>
                                     <div class="apss-result-meta">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -138,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <line x1="8" y1="2" x2="8" y2="6"></line>
                                             <line x1="3" y1="10" x2="21" y2="10"></line>
                                         </svg>
-                                        <span>${item.date}</span>
+                                        <span>${escapeHTML(item.date)}</span>
                                     </div>
                                 </div>
                             </a>

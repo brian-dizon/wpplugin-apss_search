@@ -59,43 +59,19 @@ class UI {
 
 			
 
-									$max_width = Settings::get_setting( 'results_max_width', 1200 );
+											$max_width = Settings::get_setting( 'results_max_width', 1200 );
 
 			
 
-									?>
+											?>
 
 			
 
-											<style>
-
-			
-
-												#apss-search-input,
-
-			
-
-												#apss-search-input::placeholder {
-
-			
-
-													font-size: clamp(30px, 5vw, <?php echo esc_attr( $font_size ); ?>px) !important;
-
-			
-
-												}
-
-			
-
-											</style>
+											<div id="apss-search-overlay" class="apss-search-overlay" style="display: none;">
 
 			
 
 									
-
-			
-
-									<div id="apss-search-overlay" class="apss-search-overlay" style="display: none;">
 
 			
 
