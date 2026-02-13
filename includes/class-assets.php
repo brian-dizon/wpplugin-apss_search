@@ -37,6 +37,16 @@ class Assets {
 			'nonce'  => wp_create_nonce( 'wp_rest' ),
 			'labels' => Settings::get_setting( 'post_type_labels', array() ),
 		) );
+
+		// Inject dynamic CSS the WordPress way
+		$font_size = Settings::get_setting( 'input_font_size', 24 );
+		$custom_css = "
+			#apss-search-input,
+			#apss-search-input::placeholder {
+				font-size: clamp(30px, 5vw, {$font_size}px) !important;
+			}
+		";
+		wp_add_inline_style( 'apss-search-css', $custom_css );
 	}
 
 	public static function enqueue() {
