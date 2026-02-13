@@ -42,7 +42,6 @@
 
 .apss-search-container {
     width: 100%;
-    max-width: 1200px;
     padding: 0 40px;
     position: relative;
 }
@@ -83,10 +82,18 @@
     border: none;
     border-bottom: 2px solid #eaeaea;
     padding: 20px 0;
-    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
     outline: none;
     background: transparent;
+    text-align: center;
     transition: border-color 0.3s ease;
+}
+
+.apss-search-input::placeholder {
+    text-align: center;
+    font-weight: 700;
+    color: #999;
 }
 
 .apss-search-input:focus {
@@ -114,36 +121,79 @@
 
 /* Results Grid */
 .apss-search-results {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 30px;
     margin-top: 40px;
     text-align: left;
 }
 
-@media (min-width: 768px) {
-    .apss-search-results {
-        grid-template-columns: repeat(3, 1fr);
+.apss-results-section {
+    margin-bottom: 60px;
+}
+
+.apss-section-header {
+    margin-bottom: 30px;
+}
+
+.apss-section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.apss-section-separator {
+    border: 0;
+    height: 1px;
+    background: #eaeaea;
+    margin: 0;
+}
+
+.apss-results-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+}
+
+@media (min-width: 600px) {
+    .apss-results-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .apss-results-grid {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
 .apss-result-item {
     text-decoration: none;
     color: inherit;
-    display: block;
-    transition: transform 0.3s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .apss-result-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: #eee;
 }
 
 .apss-result-image {
-    aspect-ratio: 16/9;
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
     background-color: #f9f9f9;
-    margin-bottom: 15px;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: 6px;
+    margin-bottom: 0;
 }
 
 .apss-result-image img {
@@ -152,17 +202,53 @@
     object-fit: cover;
 }
 
+.apss-result-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 .apss-result-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    margin: 0;
-    color: #333;
+    margin: 0 0 5px;
+    color: #1a1a1a;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.apss-result-excerpt {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+}
+
+.apss-result-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #999;
+}
+
+.apss-result-meta svg {
+    opacity: 0.6;
 }
 
 .apss-no-results {
     font-size: 20px;
     color: #666;
     margin-top: 40px;
+    text-align: center;
 }
 
 /* Body lock when overlay is open */

@@ -33,21 +33,121 @@ class UI {
 		return ob_get_clean();
 	}
 
-	public function render_overlay() {
-		if ( ! wp_script_is( 'apss-search-js', 'enqueued' ) ) {
-			return;
-		}
-		$overlay_title = Settings::get_setting( 'overlay_title', __( 'Search for products', 'apss-search-overlay' ) );
-		?>
-		<div id="apss-search-overlay" class="apss-search-overlay" style="display: none;">
-			<div class="apss-search-container">
-				<button class="apss-close" aria-label="<?php esc_attr_e( 'Close Search', 'apss-search-overlay' ); ?>">&times;</button>
-				<div class="apss-search-inner">
-					<h2 class="apss-search-title"><?php echo esc_html( $overlay_title ); ?></h2>
-					<div class="apss-search-field-wrapper">
-						<input type="text" id="apss-search-input" class="apss-search-input" placeholder="<?php esc_attr_e( 'Start typing to see products you are looking for.', 'apss-search-overlay' ); ?>" autocomplete="off">
-						<div class="apss-spinner" style="display: none;"></div>
-					</div>
+		public function render_overlay() {
+
+			if ( ! wp_script_is( 'apss-search-js', 'enqueued' ) ) {
+
+				return;
+
+			}
+
+			
+
+									$overlay_title = Settings::get_setting( 'overlay_title', __( 'Search for products', 'apss-search-overlay' ) );
+
+			
+
+									$show_title = Settings::get_setting( 'show_overlay_title', 1 );
+
+			
+
+									$search_placeholder = Settings::get_setting( 'search_placeholder', __( 'Start typing to see products you are looking for.', 'apss-search-overlay' ) );
+
+			
+
+									$font_size = Settings::get_setting( 'input_font_size', 24 );
+
+			
+
+									$max_width = Settings::get_setting( 'results_max_width', 1200 );
+
+			
+
+									?>
+
+			
+
+											<style>
+
+			
+
+												#apss-search-input,
+
+			
+
+												#apss-search-input::placeholder {
+
+			
+
+													font-size: clamp(30px, 5vw, <?php echo esc_attr( $font_size ); ?>px) !important;
+
+			
+
+												}
+
+			
+
+											</style>
+
+			
+
+									
+
+			
+
+									<div id="apss-search-overlay" class="apss-search-overlay" style="display: none;">
+
+			
+
+							
+
+			
+
+								<div class="apss-search-container" style="max-width: <?php echo esc_attr( $max_width ); ?>px;">
+
+			
+
+									<button class="apss-close" aria-label="<?php esc_attr_e( 'Close Search', 'apss-search-overlay' ); ?>">&times;</button>
+
+			
+
+									<div class="apss-search-inner">
+
+			
+
+										<?php if ( $show_title ) : ?>
+
+			
+
+											<h2 class="apss-search-title"><?php echo esc_html( $overlay_title ); ?></h2>
+
+			
+
+										<?php endif; ?>
+
+			
+
+										<div class="apss-search-field-wrapper">
+
+			
+
+					
+
+			
+
+									<input type="text" id="apss-search-input" class="apss-search-input" placeholder="<?php echo esc_attr( $search_placeholder ); ?>" autocomplete="off">
+
+			
+
+									<div class="apss-spinner" style="display: none;"></div>
+
+			
+
+								</div>
+
+			
+
+			
 					<div id="apss-search-results" class="apss-search-results"></div>
 				</div>
 			</div>

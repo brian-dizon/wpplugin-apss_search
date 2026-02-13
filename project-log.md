@@ -47,8 +47,26 @@ A high-performance, secure, and professional live search overlay for WordPress, 
 - Features added to the settings page:
     - **Searchable Post Types**: Multi-checkbox selection for public post types.
     - **Overlay Title**: Custom text field for the search interface title.
+    - **Show Overlay Title**: Toggle to display or hide the search overlay title.
+    - **Search Input Placeholder**: Customizable placeholder text for the search input.
+    - **Search Input Font Size**: Adjustable font size (px) with a fluid `clamp()` (min 30px) for mobile responsiveness.
     - **Show Default Icon**: Toggle for the [apss_search_trigger] SVG icon.
+    - **Results Max Width**: Added setting to control the container width (up to 1800px).
+    - **Post Type Labels**: Added customizable section titles for each post type.
     - **Usage Guide**: Added an in-plugin "How to Use" section with shortcode and class instructions.
+
+## 2026-02-13: Sectioned Search Results
+
+### 1. Grouped Search API
+- Refactored the `API` class to return results grouped by `post_type`.
+- The frontend now receives an associative array rather than a flat list.
+
+### 2. Custom Labels & UI
+- **Settings**: Implemented a new "Post Type Labels" section to allow admins to override default post type names (e.g., "Products" instead of "product").
+- **Card UI**: Refactored search results into horizontal cards with square thumbnails, line-clamped titles/excerpts, and meta information (date with icon).
+- **Responsive Grid**: Updated grid system to support 4 columns (1200px+), 2 columns (600px+), and 1 column (mobile).
+- **JavaScript**: Updated rendering logic to loop through grouped results and inject section headers with customizable titles.
+- **CSS**: Added styling for `.apss-section-header`, including uppercase typography and a subtle visual separator (`hr`).
 
 ### 2. Integration
 - **API**: Updated search query to dynamically fetch allowed post types from settings.

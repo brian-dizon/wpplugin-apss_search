@@ -45,11 +45,19 @@ class API {
 			if ( $query->have_posts() ) {
 				while ( $query->have_posts() ) {
 					$query->the_post();
-					$results[] = array(
+					$post_type = get_post_type();
+					
+					if ( ! isset( $results[$post_type] ) ) {
+						$results[$post_type] = array();
+					}
+
+					$results[$post_type][] = array(
 						'id'        => get_the_ID(),
 						'title'     => esc_html( get_the_title() ),
 						'permalink' => esc_url( get_the_permalink() ),
 						'image'     => esc_url( get_the_post_thumbnail_url( get_the_ID(), 'medium' ) ),
+						'excerpt'   => wp_trim_words( get_the_excerpt(), 20 ),
+						'date'      => get_the_date(),
 					);
 				}
 				wp_reset_postdata();
