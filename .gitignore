@@ -1,0 +1,5 @@
+# ignore md files
+*.md
+
+# ignore resource folder
+/_resources/
