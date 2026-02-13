@@ -58,6 +58,10 @@ class Plugin {
 	}
 
 	private function init_components() {
+		add_action( 'init', function() {
+			add_post_type_support( 'page', 'excerpt' );
+		} );
+		
 		( new Settings() )->init();
 		( new API() )->init();
 		( new Assets() )->init();
