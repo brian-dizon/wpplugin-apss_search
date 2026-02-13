@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: APSS Search Overlay
- * Description: A high-performance, secure, and professional live search overlay for All Pumps.
+ * Description: A high-performance, secure, and professional live search overlay for All-Pumps.
  * Version: 1.2.0
- * Author: Gemini CLI
+ * Author: Brian Dizon
  * Text Domain: apss-search-overlay
  * 
  * @package APSS_Search

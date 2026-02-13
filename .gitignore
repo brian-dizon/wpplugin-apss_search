@@ -1,2 +1,12 @@
-# ignore resource folder
+# WordPress/IDE Bloat
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Development Notes
+*.md
+!README.md
+
+# Plugin Specific
 /_resources/
