@@ -2,7 +2,7 @@
 /**
  * Plugin Name: APSS Search Overlay
  * Description: A high-performance, secure, and professional live search overlay for All-Pumps.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: Brian Dizon
  * Text Domain: apss-search-overlay
  * 

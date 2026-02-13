@@ -11,18 +11,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 class API {
 	public function init() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-		add_filter( 'rest_authentication_errors', array( $this, 'bypass_auth_restriction' ), 99 );
+		// Priority 999 to run after security plugins
+		add_filter( 'rest_authentication_errors', array( $this, 'bypass_auth_restriction' ), 999 );
 	}
 
 	/**
-	 * Bypass global REST API restrictions for our specific namespace.
-	 * This ensures the search works even if a security plugin disables the REST API for public users.
+	 * Forcefully bypass global REST API restrictions for our specific namespace.
 	 */
 	public function bypass_auth_restriction( $result ) {
-		if ( ! empty( $result ) ) {
-			// Check if the current request is for our search endpoint
-			if ( strpos( $_SERVER['REQUEST_URI'], '/apss/v1/search' ) !== false ) {
-				return true; // Bypass the error and allow access
+		if ( true === $result || is_wp_error( $result ) ) {
+			if ( strpos( $_SERVER['REQUEST_URI'], 'apss/v1/search' ) !== false ) {
+				return null; // Return null to signify NO error
 			}
 		}
 		return $result;
@@ -61,17 +60,35 @@ class API {
 				while ( $query->have_posts() ) {
 					$query->the_post();
 					$post_type = get_post_type();
+					$post_id   = get_the_ID();
 					
 					if ( ! isset( $results[$post_type] ) ) {
 						$results[$post_type] = array();
 					}
 
+					// Robust Excerpt Fetching
+					$excerpt = get_the_excerpt();
+					
+					if ( empty( $excerpt ) ) {
+						// Fallback to content if excerpt is empty
+						$excerpt = get_the_content();
+					}
+
+					if ( empty( $excerpt ) ) {
+						// Fallback to Oxygen Builder meta if still empty
+						$excerpt = get_post_meta( $post_id, 'ct_builder_shortcodes', true );
+					}
+
+					// Clean and trim the excerpt
+					$excerpt = wp_strip_all_tags( strip_shortcodes( $excerpt ) );
+					$excerpt = wp_trim_words( $excerpt, 20 );
+
 					$results[$post_type][] = array(
-						'id'        => get_the_ID(),
+						'id'        => $post_id,
 						'title'     => esc_html( get_the_title() ),
 						'permalink' => esc_url( get_the_permalink() ),
-						'image'     => esc_url( get_the_post_thumbnail_url( get_the_ID(), 'medium' ) ),
-						'excerpt'   => wp_trim_words( get_the_excerpt(), 20 ),
+						'image'     => esc_url( get_the_post_thumbnail_url( $post_id, 'medium' ) ),
+						'excerpt'   => $excerpt,
 						'date'      => get_the_date(),
 					);
 				}
