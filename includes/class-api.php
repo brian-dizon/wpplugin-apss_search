@@ -11,6 +11,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 class API {
 	public function init() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+		add_filter( 'rest_authentication_errors', array( $this, 'bypass_auth_restriction' ), 99 );
+	}
+
+	/**
+	 * Bypass global REST API restrictions for our specific namespace.
+	 * This ensures the search works even if a security plugin disables the REST API for public users.
+	 */
+	public function bypass_auth_restriction( $result ) {
+		if ( ! empty( $result ) ) {
+			// Check if the current request is for our search endpoint
+			if ( strpos( $_SERVER['REQUEST_URI'], '/apss/v1/search' ) !== false ) {
+				return true; // Bypass the error and allow access
+			}
+		}
+		return $result;
 	}
 
 	public function register_routes() {
